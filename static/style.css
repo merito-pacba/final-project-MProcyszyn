@@ -123,6 +123,11 @@ a:active {
     width:100%;
 }
 
+.table_product {
+    font-size:1rem;
+    width:100%;
+}
+
 .form_ {
     display:flex;
     flex-direction:column;

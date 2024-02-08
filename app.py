@@ -43,31 +43,19 @@ def my_credits():
     return render_template("credits.html")
 
 
-@app.route("/product_table")
-def product_table():
+@app.route("/address_table")
+def address_table():
 
     with conn.cursor() as cursor:
 
         cursor.execute("SELECT TOP (10) * FROM [SalesLT].[Address] ORDER BY [AddressID] DESC")
         row = cursor.fetchall()
-    return render_template("product_table.html", query_output=row)
+    return render_template("address_table.html", query_output=row)
 
 
 @app.route("/edit", methods=['POST', 'PUT',  'GET', 'DELETE'])
 def edit():
-    """Performs query to DB but display using template"""
-    if request.method == 'GET':
-        with conn.cursor() as cursor:
-            cursor.execute(f"""SELECT [AddressID],
-                                [AddressLine1],
-                                [City],
-                                [StateProvince],
-                                [CountryRegion],
-                                [PostalCode]
-                            FROM [SalesLT].[Address]
-                            WHERE [AddressID]=''""")
-            return render_template("index.html")
-    elif request.method == 'POST':
+    if request.method == 'POST':
         with conn.cursor() as cursor:
             cursor.execute("""
                 UPDATE [SalesLT].[Address]
@@ -91,7 +79,7 @@ def edit():
                     request.form['id']  # Assuming you have this in your form
                 ))
             conn.commit()
-        return redirect("/product_table")
+        return redirect("/address_table")
 
     elif request.method == 'PUT':
         with conn.cursor() as cursor:
@@ -123,10 +111,125 @@ def edit():
                 request.form['ModifiedDate']
             ))
             conn.commit()
-        return redirect("/product_table")
+        return redirect("/address_table")
     elif request.method == 'DELETE':
         with conn.cursor() as cursor:
             cursor.execute("""DELETE FROM [SalesLT].[Address] WHERE [AddressID] = ?""",
+                           (request.form['id']))
+            conn.commit()
+        return redirect("/address_table")
+    else:
+        pass
+
+
+@app.route("/product_table")
+def product_table():
+
+    with conn.cursor() as cursor:
+
+        cursor.execute("SELECT TOP (10) * FROM [SalesLT].[Product] ORDER BY [ProductID] DESC")
+        row = cursor.fetchall()
+    return render_template("product_table.html", query_output=row)
+
+
+@app.route("/edit_product", methods=['POST', 'PUT',  'GET', 'DELETE'])
+def edit_product():
+    """Performs query to DB but display using template"""
+    if request.method == 'POST':
+        with conn.cursor() as cursor:
+            cursor.execute("""
+                UPDATE [SalesLT].[Product]
+                SET [Name] = ?
+                    ,[ProductNumber] = ?
+                    ,[Color] = ?
+                    ,[StandardCost] = ?
+                    ,[ListPrice] = ?
+                    ,[Size] = ?
+                    ,[Weight] = ?
+                    ,[ProductCategoryID] = ?
+                    ,[ProductModelID] = ?
+                    ,[SellStartDate] = ?
+                    ,[SellEndDate] = ?
+                    ,[DiscontinuedDate] = ?
+                    ,[rowguid] = ?
+                    ,[ModifiedDate] = ?
+                    WHERE [ProductID] = ?""", (
+                    request.form['Name'],
+                    request.form['ProductNumber'],
+                    request.form['Color'],
+                    request.form['StandardCost'],
+                    request.form['ListPrice'],
+                    request.form['Size'],
+                    request.form['Weight'],
+                    request.form['ProductCategoryID'],
+                    request.form['ProductModelID'],
+                    request.form['SellStartDate'],
+                    request.form['SellEndDate'],
+                    request.form['DiscontinuedDate'],
+                    request.form['rowguid'],
+                    request.form['ModifiedDate'],
+                    request.form['ProductID']
+                ))
+            conn.commit()
+        return redirect("/product_table")
+
+    elif request.method == 'PUT':
+        with conn.cursor() as cursor:
+            cursor.execute("""
+                        INSERT INTO [SalesLT].[Product]
+                        ( 
+                            Name
+                            ,ProductNumber
+                            ,Color
+                            ,StandardCost
+                            ,ListPrice
+                            ,Size
+                            ,Weight
+                            ,ProductCategoryID
+                            ,ProductModelID
+                            ,SellStartDate
+                            ,SellEndDate
+                            ,DiscontinuedDate
+                            ,rowguid
+                            ,ModifiedDate
+                            VALUES(
+                                    ?,
+                                    ?,
+                                    ?,
+                                    ?,
+                                    ?,
+                                    ?,
+                                    ?,
+                                    ?,
+                                    ?,
+                                    ?,
+                                    ?,
+                                    ?,
+                                    ?,
+                                    ?,
+                                    ?,
+                                    )"""), (
+                            request.form['Name'],
+                            request.form['ProductNumber'],
+                            request.form['Color'],
+                            request.form['StandardCost'],
+                            request.form['ListPrice'],
+                            request.form['Size'],
+                            request.form['Weight'],
+                            request.form['ProductCategoryID'],
+                            request.form['ProductModelID'],
+                            request.form['SellStartDate'],
+                            request.form['SellEndDate'],
+                            request.form['DiscontinuedDate'],
+                            request.form['rowguid'],
+                            request.form['ModifiedDate'],
+                            request.form['ProductID']
+            )
+            conn.commit()
+        return redirect("/product_table")
+    elif request.method == 'DELETE':
+        with conn.cursor() as cursor:
+            cursor.execute("""DELETE FROM [SalesLT].[Product] WHERE [ProductID] = ?""",
                            (request.form['id']))
             conn.commit()
         return redirect("/product_table")

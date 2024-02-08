@@ -1,10 +1,121 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'index.html' %}
+{% block content %}
+<h1 class="subtitle">Welcome to my addresses page!</h1>
+<h1 class="content">
+    <table class="table" border="solid">
+        <tr>
+            <th>AddressID</th>
+            <th>AddressLine1</th>
+            <th>AddressLine2</th>
+            <th>City</th>
+            <th>StateProvince</th>
+            <th>CountryRegion</th>
+            <th>PostalCode</th>
+            <th>rowguid</th>
+            <th>ModifiedDate</th>
+        </tr>
+    {%for row in query_output%}
+        <tr>
+            <td id="{{row[0]}}_AddressID">{{row[0]}}</td>
+            <td id="{{row[0]}}AddressLine1" >{{row[1]}}</td>
+            <td id="{{row[0]}}AddressLine2" >{{row[2]}}</td>
+            <td id="{{row[0]}}City" >{{row[3]}}</td>
+            <td id="{{row[0]}}StateProvince" >{{row[4]}}</td>
+            <td id="{{row[0]}}CountryRegion" >{{row[5]}}</td>
+            <td id="{{row[0]}}PostalCode" >{{row[6]}}</td>
+            <td id="{{row[0]}}rowguid" >{{row[7]}}</td>
+            <td id="{{row[0]}}ModifiedDate" >{{row[8]}}</td>
+        </tr>
 
-</body>
-</html>
+    {%endfor%}
+    </table>
+</h1>
+
+
+{% endblock %}
+
+{% block navi %}
+    <button class="button" onclick="showForm('add_form')"><img src="{{ url_for('static', filename='add.svg') }}" width="50" height="50"></button>
+    <button class="button" onclick="showForm('delete_form')"><img src="{{ url_for('static', filename='delete.svg') }}" width="50" height="50"></button>
+    <button class="button" onclick="showForm('edit_form')"><img src="{{ url_for('static', filename='edit.svg') }}" width="50" height="50"></button>
+{% endblock %}
+{% block form %}
+
+<form id="edit_form" action="/edit" class="form_" method="POST" style="display:none">
+    <h1 style="text-align:center">Edit form</h1>
+    <label>addressID</label>
+    <select id="id" name="id" onchange="fill_form()">
+        {%for row in query_output%}
+        <option value="{{row[0]}}">{{row[0]}}</option>
+        {%endfor%}
+    </select>
+
+    <label>AddressLine1</label>
+    <input id="AddressLine1" name="AddressLine1" type="text" value="">
+    <label>AddressLine2</label>
+    <input id="AddressLine2" name="AddressLine2" type="text" value="">
+    <label>City</label>
+    <input id="City" name="City" type="text" value="">
+    <label>StateProvince</label>
+    <input id="StateProvince" name="StateProvince" type="text" value="">
+    <label>CountryRegion</label>
+    <input id="CountryRegion" name="CountryRegion" type="text" value="">
+    <label>PostalCode</label>
+    <input id="PostalCode" name="PostalCode" type="text" value="">
+    <label>rowguid</label>
+    <input id="rowguid" name="rowguid" type="text" value="">
+    <label>ModifiedDate</label>
+    <input id="ModifiedDate" name="ModifiedDate" type="text" value="">
+<button type="submit">Submit</button>
+</form>
+
+
+
+<form id="add_form" action="/edit" class="form_" style="display:none">
+    <h1 style="text-align:center">Add form</h1>
+    <label>AddressLine1</label>
+    <input id="AddressLine1_add" name="AddressLine1" type="text" value="">
+    <label>AddressLine2</label>
+    <input id="AddressLine2_add" name="AddressLine2" type="text" value="">
+    <label>City</label>
+    <input id="City_add" name="City" type="text" value="">
+    <label>StateProvince</label>
+    <input id="StateProvince_add" name="StateProvince" type="text" value="">
+    <label>CountryRegion</label>
+    <input id="CountryRegion_add" name="CountryRegion" type="text" value="">
+    <label>PostalCode</label>
+    <input id="PostalCode_add" name="PostalCode" type="text" value="">
+    <label>ModifiedDate</label>
+    <input id="ModifiedDate_add" name="ModifiedDate" type="text" value="">
+<button type="button" onclick="submitForm('/edit')">Submit</button>
+</form>
+
+<form id="delete_form" action="/address_table" class="form_" style="display:none">
+    <h1 style="text-align:center">Delete form</h1>
+    <select id="id_delete" name="id" onchange="fill_form()">
+        {%for row in query_output%}
+        <option value="{{row[0]}}">{{row[0]}}</option>
+        {%endfor%}
+    </select>
+    <button type="button" onclick="submitDeleteForm('/edit')">Submit</button>
+</form>
+
+
+<script>
+  function fill_form(){
+    let id = document.getElementById('id').value
+    console.log(id + "AddressLine1")
+    document.getElementById("AddressLine1").value = document.getElementById(id + "AddressLine1").innerHTML
+    document.getElementById("AddressLine2").value = document.getElementById(id + "AddressLine2").innerHTML
+    document.getElementById("City").value = document.getElementById(id + "City").innerHTML
+    document.getElementById("StateProvince").value = document.getElementById(id + "StateProvince").innerHTML
+    document.getElementById("CountryRegion").value = document.getElementById(id + "CountryRegion").innerHTML
+    document.getElementById("PostalCode").value = document.getElementById(id + "PostalCode").innerHTML
+    document.getElementById("rowguid").value = document.getElementById(id + "rowguid").innerHTML
+    document.getElementById("ModifiedDate").value = document.getElementById(id + "ModifiedDate").innerHTML
+}
+fill_form()
+
+</script>
+
+{% endblock %}

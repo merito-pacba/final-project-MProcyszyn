@@ -14,25 +14,25 @@ function showForm(formId) {
     }
 }
 
-function fill_form(){
-    let id = document.getElementById('id').value
-    console.log(id + "AddressLine1")
-    document.getElementById("AddressLine1").value = document.getElementById(id + "AddressLine1").innerHTML
-    document.getElementById("AddressLine2").value = document.getElementById(id + "AddressLine2").innerHTML
-    document.getElementById("City").value = document.getElementById(id + "City").innerHTML
-    document.getElementById("StateProvince").value = document.getElementById(id + "StateProvince").innerHTML
-    document.getElementById("CountryRegion").value = document.getElementById(id + "CountryRegion").innerHTML
-    document.getElementById("PostalCode").value = document.getElementById(id + "PostalCode").innerHTML
-    document.getElementById("rowguid").value = document.getElementById(id + "rowguid").innerHTML
-    document.getElementById("ModifiedDate").value = document.getElementById(id + "ModifiedDate").innerHTML
-}
+//function fill_form(){
+//    let id = document.getElementById('id').value
+//    console.log(id + "AddressLine1")
+//    document.getElementById("AddressLine1").value = document.getElementById(id + "AddressLine1").innerHTML
+//    document.getElementById("AddressLine2").value = document.getElementById(id + "AddressLine2").innerHTML
+//    document.getElementById("City").value = document.getElementById(id + "City").innerHTML
+//    document.getElementById("StateProvince").value = document.getElementById(id + "StateProvince").innerHTML
+//    document.getElementById("CountryRegion").value = document.getElementById(id + "CountryRegion").innerHTML
+//    document.getElementById("PostalCode").value = document.getElementById(id + "PostalCode").innerHTML
+//    document.getElementById("rowguid").value = document.getElementById(id + "rowguid").innerHTML
+//    document.getElementById("ModifiedDate").value = document.getElementById(id + "ModifiedDate").innerHTML
+//}
 
-function submitForm() {
+function submitForm(endpoint_url) {
     var form = document.getElementById("add_form");
     var formData = new FormData(form);
 
     var xhr = new XMLHttpRequest();
-    xhr.open("PUT", "/edit", true);
+    xhr.open("PUT", endpoint_url, true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
             // Handle successful response
@@ -45,12 +45,12 @@ function submitForm() {
     xhr.send(formData);
 }
 
-function submitDeleteForm() {
+function submitDeleteForm(endpoint_url) {
    var form = document.getElementById("delete_form");
    var formData = new FormData(form);
 
     var xhr = new XMLHttpRequest();
-    xhr.open("DELETE", "/edit", true);
+    xhr.open("DELETE", endpoint_url, true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
             // Handle successful response
