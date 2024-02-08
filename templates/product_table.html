@@ -1,32 +1,44 @@
 {% extends 'index.html' %}
 {% block content %}
-<h1 class="subtitle">Welcome to my product page!</h1>
+<h1 class="subtitle">Welcome to my products page!</h1>
 <h1 class="content">
-    <table class="table" border="solid">
+    <table class="table_product" border="solid">
+
         <tr>
-            <th>AddressID</th>
-            <th>AddressLine1</th>
-            <th>AddressLine2</th>
-            <th>City</th>
-            <th>StateProvince</th>
-            <th>CountryRegion</th>
-            <th>PostalCode</th>
+            <th>ProductID</th>
+            <th>Name</th>
+            <th>ProductNumber</th>
+            <th>Color</th>
+            <th>StandardCost</th>
+            <th>ListPrice</th>
+            <th>Size</th>
+            <th>Weight</th>
+            <th>ProductCategoryID</th>
+            <th>ProductModelID</th>
+            <th>SellStartDate</th>
+            <th>SellEndDate</th>
+            <th>DiscontinuedDate</th>
             <th>rowguid</th>
             <th>ModifiedDate</th>
         </tr>
     {%for row in query_output%}
         <tr>
-            <td id="{{row[0]}}_AddressID" referenceid="">{{row[0]}}</td>
-            <td id="{{row[0]}}AddressLine1" >{{row[1]}}</td>
-            <td id="{{row[0]}}AddressLine2" >{{row[2]}}</td>
-            <td id="{{row[0]}}City" >{{row[3]}}</td>
-            <td id="{{row[0]}}StateProvince" >{{row[4]}}</td>
-            <td id="{{row[0]}}CountryRegion" >{{row[5]}}</td>
-            <td id="{{row[0]}}PostalCode" >{{row[6]}}</td>
-            <td id="{{row[0]}}rowguid" >{{row[7]}}</td>
-            <td id="{{row[0]}}ModifiedDate" >{{row[8]}}</td>
+            <td id="{{row[0]}}ProductID" >{{row[0]}}</td>
+            <td id="{{row[0]}}Name" >{{row[1]}}</td>
+            <td id="{{row[0]}}ProductNumber" >{{row[2]}}</td>
+            <td id="{{row[0]}}Color" >{{row[3]}}</td>
+            <td id="{{row[0]}}StandardCost" >{{row[4]}}</td>
+            <td id="{{row[0]}}ListPrice" >{{row[5]}}</td>
+            <td id="{{row[0]}}Size" >{{row[6]}}</td>
+            <td id="{{row[0]}}Weight" >{{row[7]}}</td>
+            <td id="{{row[0]}}ProductCategoryID" >{{row[8]}}</td>
+            <td id="{{row[0]}}ProductModelID" >{{row[9]}}</td>
+            <td id="{{row[0]}}SellStartDate" >{{row[10]}}</td>
+            <td id="{{row[0]}}SellEndDate" >{{row[11]}}</td>
+            <td id="{{row[0]}}DiscontinuedDate" >{{row[12]}}</td>
+            <td id="{{row[0]}}rowguid" >{{row[15]}}</td>
+            <td id="{{row[0]}}ModifiedDate" >{{row[16]}}</td>
         </tr>
-
     {%endfor%}
     </table>
 </h1>
@@ -41,31 +53,44 @@
 {% endblock %}
 {% block form %}
 
-<form id="edit_form" action="/edit" class="form_" method="POST" style="display:none">
+<form id="edit_form" action="/edit_product" class="form_" method="POST" style="display:none">
     <h1 style="text-align:center">Edit form</h1>
-    <label>addressID</label>
+    <label>ProductID</label>
     <select id="id" name="id" onchange="fill_form()">
         {%for row in query_output%}
         <option value="{{row[0]}}">{{row[0]}}</option>
         {%endfor%}
     </select>
 
-    <label>AddressLine1</label>
-    <input id="AddressLine1" name="AddressLine1" type="text" value="">
-    <label>AddressLine2</label>
-    <input id="AddressLine2" name="AddressLine2" type="text" value="">
-    <label>City</label>
-    <input id="City" name="City" type="text" value="">
-    <label>StateProvince</label>
-    <input id="StateProvince" name="StateProvince" type="text" value="">
-    <label>CountryRegion</label>
-    <input id="CountryRegion" name="CountryRegion" type="text" value="">
-    <label>PostalCode</label>
-    <input id="PostalCode" name="PostalCode" type="text" value="">
+    <label>Name</label>
+    <input id="Name" name="Name" type="text" value="">
+    <label>ProductNumber</label>
+    <input id="ProductNumber" name="ProductNumber" type="text" value="">
+    <label>Color</label>
+    <input id="Color" name="Color" type="text" value="">
+    <label>StandardCost</label>
+    <input id="StandardCost" name="StandardCost" type="text" value="">
+    <label>ListPrice</label>
+    <input id="ListPrice" name="ListPrice" type="text" value="">
+    <label>Size</label>
+    <input id="Size" name="Size" type="text" value="">
+    <label>Weight</label>
+    <input id="Weight" name="Weight" type="text" value="">
+    <label>ProductCategoryID</label>
+    <input id="ProductCategoryID" name="ProductCategoryID" type="text" value="">
+    <label>ProductModelID</label>
+    <input id="ProductModelID" name="ProductModelID" type="text" value="">
+    <label>SellStartDate</label>
+    <input id="SellStartDate" name="SellStartDate" type="text" value="">
+    <label>SellEndDate</label>
+    <input id="SellEndDate" name="SellEndDate" type="text" value="">
+    <label>DiscontinuedDate</label>
+    <input id="DiscontinuedDate" name="DiscontinuedDate" type="text" value="">
     <label>rowguid</label>
     <input id="rowguid" name="rowguid" type="text" value="">
     <label>ModifiedDate</label>
     <input id="ModifiedDate" name="ModifiedDate" type="text" value="">
+
 <button type="submit">Submit</button>
 </form>
 
@@ -73,21 +98,33 @@
 
 <form id="add_form" action="/edit" class="form_" style="display:none">
     <h1 style="text-align:center">Add form</h1>
-    <label>AddressLine1</label>
-    <input id="AddressLine1_add" name="AddressLine1" type="text" value="">
-    <label>AddressLine2</label>
-    <input id="AddressLine2_add" name="AddressLine2" type="text" value="">
-    <label>City</label>
-    <input id="City_add" name="City" type="text" value="">
-    <label>StateProvince</label>
-    <input id="StateProvince_add" name="StateProvince" type="text" value="">
-    <label>CountryRegion</label>
-    <input id="CountryRegion_add" name="CountryRegion" type="text" value="">
-    <label>PostalCode</label>
-    <input id="PostalCode_add" name="PostalCode" type="text" value="">
+    <label>Name</label>
+    <input id="Name_add" name="Name" type="text" value="">
+    <label>ProductNumber</label>
+    <input id="ProductNumber_add" name="ProductNumber" type="text" value="">
+    <label>Color</label>
+    <input id="Color_add" name="Color" type="text" value="">
+    <label>StandardCost</label>
+    <input id="StandardCost_add" name="StandardCost" type="text" value="">
+    <label>ListPrice</label>
+    <input id="ListPrice_add" name="ListPrice" type="text" value="">
+    <label>Size</label>
+    <input id="Size_add" name="Size" type="text" value="">
+    <label>Weight</label>
+    <input id="Weight_add" name="Weight" type="text" value="">
+    <label>ProductCategoryID</label>
+    <input id="ProductCategoryID_add" name="ProductCategoryID" type="text" value="">
+    <label>ProductModelID</label>
+    <input id="ProductModelID_add" name="ProductModelID" type="text" value="">
+    <label>SellStartDate</label>
+    <input id="SellStartDate_add" name="SellStartDate" type="text" value="">
+    <label>SellEndDate</label>
+    <input id="SellEndDate_add" name="SellEndDate" type="text" value="">
+    <label>DiscontinuedDate</label>
+    <input id="DiscontinuedDate_add" name="DiscontinuedDate" type="text" value="">
     <label>ModifiedDate</label>
     <input id="ModifiedDate_add" name="ModifiedDate" type="text" value="">
-<button type="button" onclick="submitForm()">Submit</button>
+<button type="button" onclick="submitForm('/edit_product')">Submit</button>
 </form>
 
 <form id="delete_form" action="/product_table" class="form_" style="display:none">
@@ -97,7 +134,30 @@
         <option value="{{row[0]}}">{{row[0]}}</option>
         {%endfor%}
     </select>
-    <button type="button" onclick="submitDeleteForm()">Submit</button>
+    <button type="button" onclick="submitDeleteForm('/edit_product')">Submit</button>
 </form>
+
+<script>
+  function fill_form(){
+    let id = document.getElementById('id').value
+    document.getElementById("Name").value = document.getElementById(id + "Name").innerHTML
+    document.getElementById("ProductNumber").value = document.getElementById(id + "ProductNumber").innerHTML
+    document.getElementById("Color").value = document.getElementById(id + "Color").innerHTML
+    document.getElementById("StandardCost").value = document.getElementById(id + "StandardCost").innerHTML
+    document.getElementById("ListPrice").value = document.getElementById(id + "ListPrice").innerHTML
+    document.getElementById("Size").value = document.getElementById(id + "Size").innerHTML
+    document.getElementById("Weight").value = document.getElementById(id + "Weight").innerHTML
+    document.getElementById("ProductCategoryID").value = document.getElementById(id + "ProductCategoryID").innerHTML
+    document.getElementById("ProductModelID").value = document.getElementById(id + "ProductModelID").innerHTML
+    document.getElementById("SellStartDate").value = document.getElementById(id + "SellStartDate").innerHTML
+    document.getElementById("SellEndDate").value = document.getElementById(id + "SellEndDate").innerHTML
+    document.getElementById("DiscontinuedDate").value = document.getElementById(id + "DiscontinuedDate").innerHTML
+    document.getElementById("rowguid").value = document.getElementById(id + "rowguid").innerHTML
+    document.getElementById("ModifiedDate").value = document.getElementById(id + "ModifiedDate").innerHTML
+}
+
+fill_form()
+
+</script>
 
 {% endblock %}
