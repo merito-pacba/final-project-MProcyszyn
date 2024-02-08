@@ -47,14 +47,91 @@ def my_credits():
 def product_table():
 
     with conn.cursor() as cursor:
-        cursor.execute("SELECT TOP (10) * FROM [SalesLT].[Address]")
+
+        cursor.execute("SELECT TOP (10) * FROM [SalesLT].[Address] ORDER BY [AddressID] DESC")
         row = cursor.fetchall()
-        df = pd.DataFrame()
-        for x in row:
-            df2 = pd.DataFrame(list(x)).T
-            df = pd.concat([df, df2])
-        query_output = df.to_html()
-    return render_template("product_table.html", query_output=query_output)
+    return render_template("product_table.html", query_output=row)
+
+
+@app.route("/edit", methods=['POST', 'PUT',  'GET', 'DELETE'])
+def edit():
+    """Performs query to DB but display using template"""
+    if request.method == 'GET':
+        with conn.cursor() as cursor:
+            cursor.execute(f"""SELECT [AddressID],
+                                [AddressLine1],
+                                [City],
+                                [StateProvince],
+                                [CountryRegion],
+                                [PostalCode]
+                            FROM [SalesLT].[Address]
+                            WHERE [AddressID]=''""")
+            return render_template("index.html")
+    elif request.method == 'POST':
+        with conn.cursor() as cursor:
+            cursor.execute("""
+                UPDATE [SalesLT].[Address]
+                SET [AddressLine1] = ?,
+                    [AddressLine2] = ?,
+                    [City] = ?,
+                    [StateProvince] = ?,
+                    [CountryRegion] = ?,
+                    [PostalCode] = ?,
+                    [rowguid] = ?,
+                    [ModifiedDate] = ?
+                WHERE [AddressID] = ?""", (
+                    request.form['AddressLine1'],
+                    request.form['AddressLine2'],
+                    request.form['City'],
+                    request.form['StateProvince'],
+                    request.form['CountryRegion'],
+                    request.form['PostalCode'],
+                    request.form['rowguid'],
+                    request.form['ModifiedDate'],
+                    request.form['id']  # Assuming you have this in your form
+                ))
+            conn.commit()
+        return redirect("/product_table")
+
+    elif request.method == 'PUT':
+        with conn.cursor() as cursor:
+            cursor.execute("""
+                INSERT INTO [SalesLT].[Address](
+                AddressLine1,
+                AddressLine2,
+                City,
+                StateProvince,
+                CountryRegion,
+                PostalCode,
+                ModifiedDate
+                )
+                VALUES (
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?
+                )""", (
+                request.form['AddressLine1'],
+                request.form['AddressLine2'],
+                request.form['City'],
+                request.form['StateProvince'],
+                request.form['CountryRegion'],
+                request.form['PostalCode'],
+                request.form['ModifiedDate']
+            ))
+            conn.commit()
+        return redirect("/product_table")
+    elif request.method == 'DELETE':
+        with conn.cursor() as cursor:
+            cursor.execute("""DELETE FROM [SalesLT].[Address] WHERE [AddressID] = ?""",
+                           (request.form['id']))
+            conn.commit()
+        return redirect("/product_table")
+    else:
+        pass
 
 
 if __name__ == "__main__":

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
+    <script src="{{ url_for('static', filename='javascript.js') }}"></script>
     <title>Title</title>
 </head>
 <body>
@@ -17,17 +17,17 @@
         <a href="{{ url_for('index') }}"> <img class="home_image" src="{{ url_for('static', filename='home-icon.svg') }}" alt="SVG Icon" width="100" height="100"></a>
     </div>
     <div class="div_title">
-        <h1 class="title">Welcome at final project app</h1>
+        <h1 class="title">Welcome to final project app</h1>
     </div>
 </div>
 <div class="content_div">
 <div class="navi">
     <ul class="navi_list">
         <li>
-            <a href="{{ url_for('product_table') }}">Product table</a>
+            <a href="">Product table</a>
         </li>
         <li>
-            <a href="">Address table</a>
+            <a href="{{ url_for('product_table') }}">Address table</a>
         </li>
         <li>
             <a href="">Customer table</a>
@@ -48,6 +48,10 @@
 </div>
 </div>
 </div>
+<div id="form">
+    {% block form %} {% endblock %}
 
+
+</div>
 </body>
 </html>

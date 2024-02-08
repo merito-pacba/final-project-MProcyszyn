@@ -118,7 +118,19 @@ a:active {
     text-decoration: none;
 }
 
-table {
+.table {
     font-size:1rem;
     width:100%;
+}
+
+.form_ {
+    display:flex;
+    flex-direction:column;
+    gap:0.5rem;
+}
+
+.button {
+    background-color:transparent;
+    border:0;
+    cursor:pointer;
 }
