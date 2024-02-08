@@ -58,6 +58,6 @@ def product_table():
 
 
 if __name__ == "__main__":
-    app.run(port)
+    app.run(port, debug=True)
 
 

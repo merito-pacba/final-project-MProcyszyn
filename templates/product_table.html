@@ -2,4 +2,13 @@
 {% block content %}
 <h1 class="subtitle">Welcome at my product page!</h1>
 <h1 class="content">{{ query_output | safe }}</h1>
+
+
 {% endblock %}
+
+{% block navi %}
+    <img src="{{ url_for('static', filename='add.svg') }}" width="50" height="50">
+    <img src="{{ url_for('static', filename='delete.svg') }}" width="50" height="50">
+    <img src="{{ url_for('static', filename='edit.svg') }}" width="50" height="50">
+{% endblock %}
+

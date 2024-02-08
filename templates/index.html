@@ -12,6 +12,7 @@
 
 <div class="main_div">
 <div class="banner">
+
     <div class="div_home">
         <a href="{{ url_for('index') }}"> <img class="home_image" src="{{ url_for('static', filename='home-icon.svg') }}" alt="SVG Icon" width="100" height="100"></a>
     </div>
@@ -19,7 +20,7 @@
         <h1 class="title">Welcome at final project app</h1>
     </div>
 </div>
-
+<div class="content_div">
 <div class="navi">
     <ul class="navi_list">
         <li>
@@ -41,6 +42,10 @@
 </div>
 <div class="main">
     {% block content %} {% endblock %}
+</div>
+<div class="navi_right">
+{% block navi %} {% endblock %}
+</div>
 </div>
 </div>
 
