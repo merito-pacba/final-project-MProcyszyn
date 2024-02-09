@@ -7,7 +7,6 @@ import os
 import pyodbc
 from flask import Flask,render_template,request,url_for,redirect
 from dotenv import load_dotenv
-import pandas as pd
 
 
 load_dotenv()
