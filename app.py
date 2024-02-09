@@ -237,6 +237,6 @@ def edit_product():
 
 
 if __name__ == "__main__":
-    app.run(port, debug=True)
+    app.run(port)
 
 
